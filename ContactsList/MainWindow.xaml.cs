@@ -130,6 +130,8 @@ namespace ContactsList
             //if the user has entered all the details allows them to add the contact details
             if (TxtFirst.Text != "" && TxtLast.Text != "" && TxtPhone.Text != "" && TxtEmail.Text != "")
             {
+                //checks if the details entered are for adding a new contact or updating an existing one
+                //and changes the add buttons text
                 AddBtn.Content = TxtId.Text != "" ? "Update" : "Add";
                 AddBtn.IsEnabled = true;
             }
