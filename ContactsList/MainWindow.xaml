@@ -59,7 +59,7 @@
 
                 <Button x:Name="AddBtn" 
                         Click="AddRecord" 
-                        Content="Save" 
+                        Content="Add" 
                         FontSize="24" 
                         Grid.Column="0"
                         Margin="5,5,5,0"
