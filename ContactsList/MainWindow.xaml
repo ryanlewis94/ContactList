@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactsList"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1000">
+        Title="MainWindow" Height="600" Width="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -14,7 +15,15 @@
 
         <DataGrid x:Name="ContactList"
                   IsReadOnly="True"
-                  SelectionChanged="ContactList_OnSelectionChanged"/>
+                  AutoGenerateColumns="False"
+                  SelectionChanged="ContactList_OnSelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="FirstName" Binding="{Binding Path=FirstName}"/>
+                <DataGridTextColumn Header="LastName" Binding="{Binding Path=LastName}"/>
+                <DataGridTextColumn Header="Phone" Binding="{Binding Path=Phone}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <StackPanel Grid.Column="1">
             <Label Content="First Name:"
@@ -64,8 +73,8 @@
                         Grid.Column="0"
                         Margin="5,5,5,0"
                         Height="36"
-                        VerticalAlignment="Top"
-                        IsEnabled="False"></Button>
+                        IsEnabled="False"
+                        VerticalAlignment="Top"></Button>
                 <Button x:Name="ClearBtn"
                         Content="Clear"
                         FontSize="24"
@@ -84,7 +93,6 @@
             </Grid>
             <TextBox x:Name="TxtId"
                      Text="{Binding SelectedItem.Id, ElementName=ContactList}"
-                     Visibility="Hidden"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5" />

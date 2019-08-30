@@ -1,6 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using ContactsList.Repositories;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Win32;
 
 
 namespace ContactsList
@@ -10,90 +16,24 @@ namespace ContactsList
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IContactRepo _repository = new ContactRepo();
+        private Contact _contact = new Contact();
+
         public MainWindow()
         {
             InitializeComponent();
             LoadDb();
+            this.DataContext = _contact;
         }
 
         private void LoadDb()
         {
-            var db = new ContactDb();
-
-            //queries the db for all the contacts
-            var query = from contact in db.Contacts
-                select contact;
-
             //adds the result of the query to the data grid
-            ContactList.ItemsSource = query.ToList();
+            ContactList.ItemsSource = _repository.GetContacts();
 
-            //resets the inputs and buttons
-            TxtId.Text = "";
-            TxtFirst.Text = "";
-            TxtLast.Text = "";
-            TxtPhone.Text = "";
-            TxtEmail.Text = "";
             DelBtn.IsEnabled = false;
-        }
-
-        private void AddDb()
-        {
-            var db = new ContactDb();
-
-            //initialize a new contact
-            var ContactNew = new Contact();
-
-            //fill the new contact with the details input by the user
-            ContactNew.FirstName = TxtFirst.Text;
-            ContactNew.LastName = TxtLast.Text;
-            ContactNew.Phone = TxtPhone.Text;
-            ContactNew.Email = TxtEmail.Text;
-
-
-            //adds the new contact to the db
-            db.Contacts.Add(ContactNew);
-            db.SaveChanges();
-        }
-
-        private void UpdateDb()
-        {
-            var db = new ContactDb();
-            var Id = int.Parse(TxtId.Text);
-
-            //queries the db for contact that has been selected
-            var UpdatedContact = 
-                db.Contacts.First(g=>g.Id == Id);
-
-            //changes the contact details with the details input by the user
-            UpdatedContact.FirstName = TxtFirst.Text;
-            UpdatedContact.LastName = TxtLast.Text;
-            UpdatedContact.Phone = TxtPhone.Text;
-            UpdatedContact.Email = TxtEmail.Text;
-
-            //updates the contact details in the db
-            db.SaveChanges();
-        }
-
-        private void DeleteDb()
-        {
-            var db = new ContactDb();
-            var Id = int.Parse(TxtId.Text);
-
-            //queries the db for contact that has been selected
-            var DeleteContactDetails =
-                from contact in db.Contacts
-                where contact.Id == Id
-                select contact;
-
-            //Loop through the query
-            foreach (var contact in DeleteContactDetails)
-            {
-                //delete the selected contact
-                db.Contacts.Remove(contact);
-            }
-
-            //confirm the deleted row and update the db
-            db.SaveChanges();
+            ContactList.SelectedItem = null;
+            _contact = new Contact();
         }
 
         private void AddRecord(object sender, RoutedEventArgs e)
@@ -101,21 +41,30 @@ namespace ContactsList
             //if a contact has been selected then update their details
             if (TxtId.Text != "")
             {
-                UpdateDb();
+                //updates the contact to the db
+                _repository.UpdateContact(_contact);
             }
             //otherwise add the details as a new contact
             else
             {
-                AddDb();
+                _contact.FirstName = TxtFirst.Text;
+                _contact.LastName = TxtLast.Text;
+                _contact.Phone = TxtPhone.Text;
+                _contact.Email = TxtEmail.Text;
+
+                //adds the new contact to the db
+                _repository.AddContact(_contact);
             }
-            
+
             //updates the data grid with the new changes
             LoadDb();
         }
 
         private void DelBtn_Click(object sender, RoutedEventArgs e)
         {
-            DeleteDb();
+            _contact.Id = int.Parse(TxtId.Text);
+            _repository.DeleteContact(_contact);
+
             LoadDb();
         }
 
@@ -126,7 +75,7 @@ namespace ContactsList
             TxtLast.Text = TxtLast.Text.Trim();
             TxtPhone.Text = TxtPhone.Text.Trim();
             TxtEmail.Text = TxtEmail.Text.Trim();
-            
+
             //if the user has entered all the details allows them to add the contact details
             if (TxtFirst.Text != "" && TxtLast.Text != "" && TxtPhone.Text != "" && TxtEmail.Text != "")
             {
@@ -144,6 +93,11 @@ namespace ContactsList
 
         private void ContactList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ////////////////////////////////create a get contact in the repo to get the contact that is selected//////////////////////////////////////////
+            //_contact = new Contact();
+            //_contact.Id = int.Parse(TxtId.Text);
+            //_contact = _repository.GetContact(_contact);
+
             //when a contact is selected it disables the option to add and enables the option to delete
             AddBtn.IsEnabled = false;
             DelBtn.IsEnabled = true;

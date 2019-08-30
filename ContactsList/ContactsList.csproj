@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="Repositories\ContactRepo.cs" />
     <Compile Include="Repositories\IContactRepo.cs" />
+    <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
