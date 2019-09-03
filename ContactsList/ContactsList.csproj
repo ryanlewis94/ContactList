@@ -66,11 +66,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CustomCommand.cs" />
-    <Compile Include="IdConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\ContactRepo.cs" />
     <Compile Include="Repositories\IContactRepo.cs" />
     <Compile Include="ViewModel.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

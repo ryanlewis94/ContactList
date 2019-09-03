@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ContactsList.Annotations;
 
 namespace ContactsList.Repositories
 {
@@ -17,13 +19,6 @@ namespace ContactsList.Repositories
             return _context.Contacts.ToList();
         }
 
-        public Contact GetContact(Contact contact)
-        {
-            Contact contToDisplay = _context.Contacts.FirstOrDefault(c => c.Id == contact.Id);
-
-            return contToDisplay;
-        }
-
         public Contact AddContact(Contact contact)
         {
             _context.Contacts.Add(contact);
@@ -34,7 +29,7 @@ namespace ContactsList.Repositories
         public Contact UpdateContact(Contact contact)
         {
             _context.Contacts.First(c => c.Id == contact.Id);
-            
+
             _context.SaveChanges();
             return contact;
         }
@@ -49,6 +44,17 @@ namespace ContactsList.Repositories
 
             _context.SaveChanges();
             return contact;
+        }
+
+        public Task DiscardChanges()
+        {
+            foreach (DbEntityEntry entry in _context.ChangeTracker.Entries())
+            {
+                entry.State = EntityState.Unchanged;
+            }
+
+            _context.SaveChanges();
+            return Task.CompletedTask;
         }
     }
 }

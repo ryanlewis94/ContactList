@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:ContactsList"
         xmlns:contactsList="clr-namespace:ContactsList"
         mc:Ignorable="d"
@@ -17,19 +16,18 @@
 
         <DataGrid x:Name="ContactList"
                   ItemsSource="{Binding Contacts}"
-                  SelectedItem="{Binding SelectedContact}"
+                  SelectedItem="{Binding SelectedContact, Mode=TwoWay}"
                   IsReadOnly="True"
                   AutoGenerateColumns="False">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="FirstName" Binding="{Binding Path=FirstName}"/>
-                <DataGridTextColumn Header="LastName" Binding="{Binding Path=LastName}"/>
-                <DataGridTextColumn Header="Phone" Binding="{Binding Path=Phone}"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}"/>
+                <DataGridTextColumn Header="FirstName" 
+                                    Binding="{Binding Path=FirstName, Mode=OneTime}"/>
+                <DataGridTextColumn Header="LastName"
+                                    Binding="{Binding Path=LastName, Mode=OneTime}"/>
+                <DataGridTextColumn Header="Phone"
+                                    Binding="{Binding Path=Phone, Mode=OneTime}"/>
+                <DataGridTextColumn Header="Email"
+                                    Binding="{Binding Path=Email, Mode=OneTime}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -38,7 +36,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtFirst"
-                     Text="{Binding CurrentContact.FirstName}"
+                     Text="{Binding SelectedContact.FirstName}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -46,7 +44,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtLast"
-                     Text="{Binding CurrentContact.LastName}"
+                     Text="{Binding SelectedContact.LastName}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -54,7 +52,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtPhone"
-                     Text="{Binding CurrentContact.Phone}"
+                     Text="{Binding SelectedContact.Phone}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -62,7 +60,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtEmail"
-                     Text="{Binding CurrentContact.Email}"
+                     Text="{Binding SelectedContact.Email}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -98,7 +96,7 @@
                         Margin="5"></Button>
             </Grid>
             <TextBox x:Name="TxtId"
-                     Text="{Binding CurrentContact.Id}"
+                     Text="{Binding SelectedContact.Id}"
                      Visibility="Hidden"
                      TextChanged="OnTextChanged"
                      FontSize="20"

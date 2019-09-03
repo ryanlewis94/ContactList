@@ -4,7 +4,6 @@
              xmlns:local="clr-namespace:ContactsList"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <local:IdConverter x:Key="localIdConverter"></local:IdConverter>
         <local:ViewModel x:Key="ViewModel"></local:ViewModel>
     </Application.Resources>
 </Application>

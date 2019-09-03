@@ -13,32 +13,20 @@ using ContactsList.Repositories;
 
 namespace ContactsList
 {
-    public class ViewModel: INotifyPropertyChanged
+    public class ViewModel: ViewModelBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         private IContactRepo repository;
 
         public ICommand SaveCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand ClearCommand { get; set; }
-        public ICommand SelectedCommand { get; set; }
-
-        private void RaisePropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         private List<Contact> contacts;
 
         public List<Contact> Contacts
         {
             get { return contacts; }
-            set
-            {
-                contacts = value;
-                RaisePropertyChanged("Contacts");
-            }
+            set { SetProperty(ref contacts, value); }
         }
 
         private Contact selectedContact;
@@ -46,23 +34,7 @@ namespace ContactsList
         public Contact SelectedContact
         {
             get { return selectedContact; }
-            set
-            {
-                selectedContact = value;
-                RaisePropertyChanged("SelectedContact");
-            }
-        }
-
-        private Contact currentContact;
-
-        public Contact CurrentContact
-        {
-            get { return currentContact; }
-            set
-            {
-                currentContact = value;
-                RaisePropertyChanged("CurrentContact");
-            }
+            set { SetProperty(ref selectedContact, value); }
         }
 
 
@@ -78,39 +50,28 @@ namespace ContactsList
             SaveCommand = new CustomCommand(SaveContact, CanSaveContact);
             DeleteCommand = new CustomCommand(DeleteContact, CanDeleteContact);
             ClearCommand = new CustomCommand(ClearContact, CanClearContact);
-            SelectedCommand = new CustomCommand(SelectContact, CanSelectContact);
         }
 
-        private void SelectContact(object obj)
-        {
-            currentContact = SelectedContact;
-        }
-        private bool CanSelectContact(object obj)
-        {
-            return true;
-        }
 
         private void SaveContact(object obj)
         {
-            if (SelectedContact != null)
+            if (SelectedContact.Id != 0)
             {
-                
-                SelectedContact = CurrentContact;
                 repository.UpdateContact(SelectedContact);
             }
             else
             {
-                repository.AddContact(CurrentContact);
+                repository.AddContact(SelectedContact);
             }
-            
+
             LoadDb();
         }
 
         private bool CanSaveContact(object obj)
         {
-            if ((CurrentContact.FirstName != null && CurrentContact.LastName != null && CurrentContact.Phone != null) || (SelectedContact != null))
-                return true;
-            return false;
+            return !string.IsNullOrEmpty(SelectedContact.FirstName) &&
+                   !string.IsNullOrEmpty(SelectedContact.LastName) &&
+                   !string.IsNullOrEmpty(SelectedContact.Phone);
         }
 
         private void DeleteContact(object obj)
@@ -121,28 +82,28 @@ namespace ContactsList
 
         private bool CanDeleteContact(object obj)
         {
-            if (SelectedContact != null)
-                return true;
-            return false;
+            return SelectedContact.Id != 0;
         }
 
         private void ClearContact(object obj)
         {
+            repository.DiscardChanges();
             LoadDb();
         }
 
         private bool CanClearContact(object obj)
         {
-            if (CurrentContact.FirstName != null || CurrentContact.LastName != null || CurrentContact.Phone != null || SelectedContact != null)
-                return true;
-            return false;
+            return !string.IsNullOrEmpty(SelectedContact.FirstName) ||
+                   !string.IsNullOrEmpty(SelectedContact.LastName) ||
+                   !string.IsNullOrEmpty(SelectedContact.Phone) ||
+                   !string.IsNullOrEmpty(SelectedContact.Email);
         }
 
         private void LoadDb()
         {
             SelectedContact = null;
             Contacts = repository.GetContacts();
-            CurrentContact = new Contact();
+            SelectedContact = new Contact();
             
         }
     }
