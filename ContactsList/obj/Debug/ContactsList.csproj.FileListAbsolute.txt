@@ -38,3 +38,6 @@ Z:\ContactList\ContactsList\obj\Debug\ContactsList.csproj.CoreCompileInputs.cach
 Z:\ContactList\ContactsList\obj\Debug\ContactsList.csproj.CopyComplete
 Z:\ContactList\ContactsList\obj\Debug\ContactsList.exe
 Z:\ContactList\ContactsList\obj\Debug\ContactsList.pdb
+Z:\ContactList\ContactsList\obj\Debug\GeneratedInternalTypeHelper.g.cs
+Z:\ContactList\ContactsList\obj\Debug\App.baml
+Z:\ContactList\ContactsList\bin\Debug\System.Windows.Interactivity.dll

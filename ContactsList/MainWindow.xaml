@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:ContactsList"
+        xmlns:contactsList="clr-namespace:ContactsList"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
-
+        Title="MainWindow" Height="600" Width="800"
+        DataContext="{StaticResource ViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -14,9 +16,15 @@
         </Grid.ColumnDefinitions>
 
         <DataGrid x:Name="ContactList"
+                  ItemsSource="{Binding Contacts}"
+                  SelectedItem="{Binding SelectedContact}"
                   IsReadOnly="True"
-                  AutoGenerateColumns="False"
-                  SelectionChanged="ContactList_OnSelectionChanged">
+                  AutoGenerateColumns="False">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="FirstName" Binding="{Binding Path=FirstName}"/>
                 <DataGridTextColumn Header="LastName" Binding="{Binding Path=LastName}"/>
@@ -30,7 +38,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtFirst"
-                     Text="{Binding SelectedItem.FirstName, ElementName=ContactList}"
+                     Text="{Binding CurrentContact.FirstName}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -38,7 +46,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtLast"
-                     Text="{Binding SelectedItem.LastName, ElementName=ContactList}"
+                     Text="{Binding CurrentContact.LastName}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -46,7 +54,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtPhone"
-                     Text="{Binding SelectedItem.Phone, ElementName=ContactList}"
+                     Text="{Binding CurrentContact.Phone}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -54,7 +62,7 @@
                    FontSize="24"
                    Margin="5"></Label>
             <TextBox x:Name="TxtEmail"
-                     Text="{Binding SelectedItem.Email, ElementName=ContactList}"
+                     Text="{Binding CurrentContact.Email}"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5"></TextBox>
@@ -67,13 +75,12 @@
                 </Grid.ColumnDefinitions>
 
                 <Button x:Name="AddBtn" 
-                        Click="AddRecord" 
-                        Content="Add" 
+                        Content="Save" 
+                        Command="{Binding SaveCommand}"
                         FontSize="24" 
                         Grid.Column="0"
                         Margin="5,5,5,0"
                         Height="36"
-                        IsEnabled="False"
                         VerticalAlignment="Top"></Button>
                 <Button x:Name="ClearBtn"
                         Content="Clear"
@@ -82,17 +89,17 @@
                         Margin="5,5,5,0"
                         Height="36"
                         VerticalAlignment="Top"
-                        Click="ClearBtn_Click"></Button>
+                        Command="{Binding ClearCommand}"></Button>
                 <Button x:Name="DelBtn" 
                         Content="Delete"
+                        Command="{Binding DeleteCommand}"
                         FontSize="24"
                         Grid.Column="2"
-                        Margin="5"
-                        IsEnabled="False"
-                        Click="DelBtn_Click"></Button>
+                        Margin="5"></Button>
             </Grid>
             <TextBox x:Name="TxtId"
-                     Text="{Binding SelectedItem.Id, ElementName=ContactList}"
+                     Text="{Binding CurrentContact.Id}"
+                     Visibility="Hidden"
                      TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5" />

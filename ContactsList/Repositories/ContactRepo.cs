@@ -19,7 +19,7 @@ namespace ContactsList.Repositories
 
         public Contact GetContact(Contact contact)
         {
-            Contact contToDisplay = _context.Contacts.First(c => c.Id == contact.Id);
+            Contact contToDisplay = _context.Contacts.FirstOrDefault(c => c.Id == contact.Id);
 
             return contToDisplay;
         }
@@ -33,7 +33,7 @@ namespace ContactsList.Repositories
 
         public Contact UpdateContact(Contact contact)
         {
-           // _context.Contacts.First(c => c.Id == contact.Id);
+            _context.Contacts.First(c => c.Id == contact.Id);
             
             _context.SaveChanges();
             return contact;
