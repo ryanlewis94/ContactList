@@ -89,7 +89,7 @@ namespace ContactsList
 
             var result = await metroWindow.ShowMessageAsync("Delete Contact",
                 $"Are you sure you want to delete {SelectedContact.FirstName}'s contact details?",
-                MessageDialogStyle.AffirmativeAndNegative);
+                MessageDialogStyle.AffirmativeAndNegative, settings);
             if (result == MessageDialogResult.Affirmative)
             {
                 repository.DeleteContact(SelectedContact);
