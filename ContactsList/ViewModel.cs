@@ -5,11 +5,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ContactsList.Annotations;
 using ContactsList.Repositories;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace ContactsList
 {
@@ -74,10 +77,24 @@ namespace ContactsList
                    !string.IsNullOrEmpty(SelectedContact.Phone);
         }
 
-        private void DeleteContact(object obj)
+        private async void DeleteContact(object obj)
         {
-            repository.DeleteContact(SelectedContact);
-            LoadDb();
+            var metroWindow = (MetroWindow) Application.Current.MainWindow;
+
+            var settings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Yes",
+                NegativeButtonText = "No"
+            };
+
+            var result = await metroWindow.ShowMessageAsync("Delete Contact",
+                $"Are you sure you want to delete {SelectedContact.FirstName}'s contact details?",
+                MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative)
+            {
+                repository.DeleteContact(SelectedContact);
+                LoadDb();
+            }
         }
 
         private bool CanDeleteContact(object obj)

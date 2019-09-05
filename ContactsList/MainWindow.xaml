@@ -1,69 +1,80 @@
-﻿<Window x:Class="ContactsList.MainWindow"
+﻿<controls:MetroWindow x:Class="ContactsList.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactsList"
         xmlns:contactsList="clr-namespace:ContactsList"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800"
+        Title="Contact List" Height="600" Width="800"
+                      TitleCaps="False"
+                      ShowMaxRestoreButton="False"
+                      ShowMinButton="False"
+                      ResizeMode="CanResizeWithGrip"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
         DataContext="{StaticResource ViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-        <DataGrid x:Name="ContactList"
-                  ItemsSource="{Binding Contacts}"
-                  SelectedItem="{Binding SelectedContact, Mode=TwoWay}"
-                  IsReadOnly="True"
-                  AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="FirstName" 
-                                    Binding="{Binding Path=FirstName, Mode=OneTime}"/>
-                <DataGridTextColumn Header="LastName"
-                                    Binding="{Binding Path=LastName, Mode=OneTime}"/>
-                <DataGridTextColumn Header="Phone"
-                                    Binding="{Binding Path=Phone, Mode=OneTime}"/>
-                <DataGridTextColumn Header="Email"
-                                    Binding="{Binding Path=Email, Mode=OneTime}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel>
+            <Label FontSize="{DynamicResource DialogTitleFontSize}"
+                   FontFamily="{DynamicResource HeaderFontFamily}"
+                   Foreground="{DynamicResource AccentColorBrush}"
+                   >Contact List</Label>
+            <DataGrid x:Name="ContactList"
+                      ItemsSource="{Binding Contacts}"
+                      SelectedItem="{Binding SelectedContact, Mode=TwoWay}"
+                      IsReadOnly="True"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First Name" 
+                                        Binding="{Binding Path=FirstName, Mode=OneTime}"/>
+                    <DataGridTextColumn Header="Last Name"
+                                        Binding="{Binding Path=LastName, Mode=OneTime}"/>
+                    <DataGridTextColumn Header="Phone"
+                                        Binding="{Binding Path=Phone, Mode=OneTime}"/>
+                    <DataGridTextColumn Header="Email"
+                                        Binding="{Binding Path=Email, Mode=OneTime}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
 
         <StackPanel Grid.Column="1">
-            <Label Content="First Name:"
-                   FontSize="24"
-                   Margin="5"></Label>
+            <Label FontSize="{DynamicResource DialogTitleFontSize}"
+                   FontFamily="{DynamicResource HeaderFontFamily}"
+                   Foreground="{DynamicResource AccentColorBrush}"
+                   >Contact Details</Label>
             <TextBox x:Name="TxtFirst"
                      Text="{Binding SelectedContact.FirstName}"
                      TextChanged="OnTextChanged"
+                     controls:TextBoxHelper.Watermark="First Name:"
+                     controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
-                     Margin="5"></TextBox>
-            <Label Content="Last Name:"
-                   FontSize="24"
-                   Margin="5"></Label>
+                     Margin="10"></TextBox>
             <TextBox x:Name="TxtLast"
                      Text="{Binding SelectedContact.LastName}"
                      TextChanged="OnTextChanged"
+                     controls:TextBoxHelper.Watermark="Last Name:"
+                     controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
-                     Margin="5"></TextBox>
-            <Label Content="Phone:"
-                   FontSize="24"
-                   Margin="5"></Label>
+                     Margin="10"></TextBox>
             <TextBox x:Name="TxtPhone"
                      Text="{Binding SelectedContact.Phone}"
                      TextChanged="OnTextChanged"
+                     controls:TextBoxHelper.Watermark="Phone:"
+                     controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
-                     Margin="5"></TextBox>
-            <Label Content="Email:"
-                   FontSize="24"
-                   Margin="5"></Label>
+                     Margin="10"></TextBox>
             <TextBox x:Name="TxtEmail"
                      Text="{Binding SelectedContact.Email}"
                      TextChanged="OnTextChanged"
+                     controls:TextBoxHelper.Watermark="Email:"
+                     controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
-                     Margin="5"></TextBox>
+                     Margin="10"></TextBox>
 
             <Grid Margin="0, 20">
                 <Grid.ColumnDefinitions>
@@ -72,28 +83,63 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="AddBtn" 
-                        Content="Save" 
+                <Button x:Name="AddBtn"
                         Command="{Binding SaveCommand}"
-                        FontSize="24" 
+                        FontSize="18" 
                         Grid.Column="0"
-                        Margin="5,5,5,0"
-                        Height="36"
-                        VerticalAlignment="Top"></Button>
+                        Margin="5"
+                        Height="70"
+                        Width="70"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="25"
+                               Height="25"
+                               Fill="{Binding Path=Foreground,
+                        RelativeSource={RelativeSource FindAncestor,
+                        AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{DynamicResource appbar_add}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
                 <Button x:Name="ClearBtn"
-                        Content="Clear"
-                        FontSize="24"
+                        FontSize="18"
                         Grid.Column="1"
-                        Margin="5,5,5,0"
-                        Height="36"
-                        VerticalAlignment="Top"
-                        Command="{Binding ClearCommand}"></Button>
+                        Margin="5"
+                        Height="70"
+                        Width="70"
+                        Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding ClearCommand}">
+                    <Rectangle Width="30"
+                               Height="20"
+                               Fill="{Binding Path=Foreground,
+                        RelativeSource={RelativeSource FindAncestor,
+                        AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_clear_inverse_reflect_horizontal}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
                 <Button x:Name="DelBtn" 
-                        Content="Delete"
                         Command="{Binding DeleteCommand}"
-                        FontSize="24"
+                        FontSize="18"
                         Grid.Column="2"
-                        Margin="5"></Button>
+                        Margin="5"
+                        Height="70"
+                        Width="70"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="20"
+                               Height="25"
+                               Fill="{Binding Path=Foreground,
+                        RelativeSource={RelativeSource FindAncestor,
+                        AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_delete}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
             </Grid>
             <TextBox x:Name="TxtId"
                      Text="{Binding SelectedContact.Id}"
@@ -106,4 +152,4 @@
         </StackPanel>
         
     </Grid>
-</Window>
+</controls:MetroWindow>
