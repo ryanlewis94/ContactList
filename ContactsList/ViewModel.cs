@@ -24,6 +24,8 @@ namespace ContactsList
         public ICommand DeleteCommand { get; set; }
         public ICommand ClearCommand { get; set; }
 
+        public MetroWindow metroWindow = (MetroWindow)Application.Current.MainWindow;
+
         private List<Contact> contacts;
 
         public List<Contact> Contacts
@@ -55,32 +57,56 @@ namespace ContactsList
             ClearCommand = new CustomCommand(ClearContact, CanClearContact);
         }
 
-
-        private void SaveContact(object obj)
+        private async void SaveContact(object obj)
         {
-            if (SelectedContact.Id != 0)
+            //check for bad name inputs
+            if ((SelectedContact.FirstName.All(char.IsWhiteSpace) || SelectedContact.FirstName.Any(char.IsDigit)) ||
+                (!string.IsNullOrEmpty(SelectedContact.LastName) && (SelectedContact.LastName.All(char.IsWhiteSpace) || SelectedContact.LastName.Any(char.IsDigit))))
             {
-                repository.UpdateContact(SelectedContact);
+                await metroWindow.ShowMessageAsync("Warning", "Please enter a valid name!");
             }
             else
             {
-                repository.AddContact(SelectedContact);
-            }
+                //check for correct phone number input
+                if (SelectedContact.Phone.All(char.IsDigit) &&
+                SelectedContact.Phone.Length >= 3 &&
+                SelectedContact.Phone.Length <= 15)
+                {
+                    //check for bad email address input
+                    if (!string.IsNullOrEmpty(SelectedContact.Email) && (SelectedContact.Email.All(char.IsWhiteSpace) || !SelectedContact.Email.Contains("@")))
+                    {
+                        await metroWindow.ShowMessageAsync("Warning", "Please enter a valid Email Address!");
+                    }
+                    else
+                    {
+                        //check if a user has been selected
+                        if (SelectedContact.Id != 0)
+                        {
+                            repository.UpdateContact(SelectedContact);
+                        }
+                        else
+                        {
+                            repository.AddContact(SelectedContact);
+                        }
 
-            LoadDb();
+                        LoadDb();
+                    }
+                }
+                else
+                {
+                    await metroWindow.ShowMessageAsync("Warning", "Please enter a valid phone number!");
+                }
+            }
         }
 
         private bool CanSaveContact(object obj)
         {
             return !string.IsNullOrEmpty(SelectedContact.FirstName) &&
-                   !string.IsNullOrEmpty(SelectedContact.LastName) &&
                    !string.IsNullOrEmpty(SelectedContact.Phone);
         }
 
         private async void DeleteContact(object obj)
         {
-            var metroWindow = (MetroWindow) Application.Current.MainWindow;
-
             var settings = new MetroDialogSettings()
             {
                 AffirmativeButtonText = "Yes",

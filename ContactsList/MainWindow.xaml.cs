@@ -22,17 +22,6 @@ namespace ContactsList
         public MainWindow()
         {
             InitializeComponent();
-            
-        }
-
-        private void OnTextChanged(object sender, RoutedEventArgs e)
-        {
-            //gets rid of any white spaces at the start and end of the user inputs
-            TxtFirst.Text = TxtFirst.Text.Trim();
-            TxtLast.Text = TxtLast.Text.Trim();
-            TxtPhone.Text = TxtPhone.Text.Trim();
-            TxtEmail.Text = TxtEmail.Text.Trim();
-
         }
     }
 }

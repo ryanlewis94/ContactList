@@ -49,28 +49,24 @@
                    >Contact Details</Label>
             <TextBox x:Name="TxtFirst"
                      Text="{Binding SelectedContact.FirstName}"
-                     TextChanged="OnTextChanged"
-                     controls:TextBoxHelper.Watermark="First Name:"
+                     controls:TextBoxHelper.Watermark="*First Name:"
                      controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
                      Margin="10"></TextBox>
             <TextBox x:Name="TxtLast"
                      Text="{Binding SelectedContact.LastName}"
-                     TextChanged="OnTextChanged"
                      controls:TextBoxHelper.Watermark="Last Name:"
                      controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
                      Margin="10"></TextBox>
             <TextBox x:Name="TxtPhone"
                      Text="{Binding SelectedContact.Phone}"
-                     TextChanged="OnTextChanged"
-                     controls:TextBoxHelper.Watermark="Phone:"
+                     controls:TextBoxHelper.Watermark="*Phone:"
                      controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
                      Margin="10"></TextBox>
             <TextBox x:Name="TxtEmail"
                      Text="{Binding SelectedContact.Email}"
-                     TextChanged="OnTextChanged"
                      controls:TextBoxHelper.Watermark="Email:"
                      controls:TextBoxHelper.UseFloatingWatermark="True"
                      FontSize="20"
@@ -121,7 +117,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
-                <Button x:Name="DelBtn" 
+                <Button x:Name="DelBtn"
                         Command="{Binding DeleteCommand}"
                         FontSize="18"
                         Grid.Column="2"
@@ -144,7 +140,6 @@
             <TextBox x:Name="TxtId"
                      Text="{Binding SelectedContact.Id}"
                      Visibility="Hidden"
-                     TextChanged="OnTextChanged"
                      FontSize="20"
                      Margin="5" />
 
