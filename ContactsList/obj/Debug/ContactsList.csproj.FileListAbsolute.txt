@@ -140,3 +140,4 @@ C:\Radis\Sandbox\RyanLewis\ContactList\ContactsList\obj\Debug\ContactsList.cspro
 C:\Radis\Sandbox\RyanLewis\ContactList\ContactsList\obj\Debug\ContactsList.exe
 C:\Radis\Sandbox\RyanLewis\ContactList\ContactsList\obj\Debug\ContactsList.pdb
 C:\Radis\Sandbox\RyanLewis\ContactList\ContactsList\obj\Debug\Styles\ButtonStyle.baml
+C:\Users\RY209294\source\repos\ContactList\ContactsList\obj\Debug\Styles\ButtonStyle.baml
