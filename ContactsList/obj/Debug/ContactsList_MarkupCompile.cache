@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\RY209294\source\repos\ContactList\ContactsList\App.xaml
-3-1260861683
+4-1366303597
 
-151710186485
+17176959653
 201200063567
-MainWindow.xaml;Resources\Icons.xaml;Resources\IconsNonShared.xaml;
+MainWindow.xaml;Resources\Icons.xaml;Resources\IconsNonShared.xaml;Styles\ButtonStyle.xaml;
 
-False
+True
 

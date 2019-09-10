@@ -42,6 +42,13 @@ namespace ContactsList
             set { SetProperty(ref selectedContact, value); }
         }
 
+        private string saveButtonContent;
+        public string SaveButtonContent
+        {
+            get { return saveButtonContent; }
+            set { SetProperty(ref saveButtonContent, value); }
+        }
+
 
         public ViewModel()
         {
@@ -101,6 +108,14 @@ namespace ContactsList
 
         private bool CanSaveContact(object obj)
         {
+            if (SelectedContact.Id != 0)
+            {
+                SaveButtonContent = "Save";
+            }
+            else
+            {
+                SaveButtonContent = "Add";
+            }
             return !string.IsNullOrEmpty(SelectedContact.FirstName) &&
                    !string.IsNullOrEmpty(SelectedContact.Phone);
         }

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Radis\Sandbox\RyanLewis\ContactList\ContactsList\App.xaml
-3-1260861683
+4-1366303597
 
-161198300735
+17363722999
 20466204498
-MainWindow.xaml;Resources\Icons.xaml;Resources\IconsNonShared.xaml;
+MainWindow.xaml;Resources\Icons.xaml;Resources\IconsNonShared.xaml;Styles\ButtonStyle.xaml;
 
-True
+False
 
