@@ -8,13 +8,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/fontawesome.otf")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/fontawesome-webfont.ttf")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/fontawesome-webfont.eot")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/fontawesome-webfont.woff")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/fontawesome-webfont.woff2")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("content/font-awesome.css")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("content/font-awesome.min.css")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/fontawesome-webfont.svg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/contactslist.exe")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/contactslist.pdb")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/controlzex.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/controlzex.pdb")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/entityframework.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/entityframework.sqlserver.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/mahapps.metro.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/mahapps.metro.pdb")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/materialdesigncolors.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/materialdesigncolors.pdb")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/materialdesignthemes.wpf.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/materialdesignthemes.wpf.pdb")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("bin/debug/system.windows.interactivity.dll")]
 
 

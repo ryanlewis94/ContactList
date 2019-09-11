@@ -20,12 +20,12 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel>
+        <StackPanel Margin="10">
             <Label FontSize="{DynamicResource DialogTitleFontSize}"
                    FontFamily="{DynamicResource HeaderFontFamily}"
                    Foreground="{DynamicResource AccentColorBrush}"
                    >Contact List</Label>
-            <DataGrid x:Name="ContactList"
+            <DataGrid Visibility="{Binding GridContacts, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}"
                       ItemsSource="{Binding Contacts}"
                       SelectedItem="{Binding SelectedContact, Mode=TwoWay}"
                       IsReadOnly="True"
@@ -41,9 +41,24 @@
                                         Binding="{Binding Path=Email, Mode=OneTime}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            <StackPanel Visibility="{Binding NoContacts, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}">
+                <TextBlock Text="No Contacts"
+                           Margin="25"
+                           FontSize="24"
+                           Foreground="{DynamicResource AccentColorBrush3}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                <TextBlock Text="&#xf506;"
+                           Margin="10"
+                           FontSize="72"
+                           Foreground="{DynamicResource AccentColorBrush3}"
+                           FontFamily="{DynamicResource FontAwesome}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" Margin="10">
             <Label FontSize="{DynamicResource DialogTitleFontSize}"
                    FontFamily="{DynamicResource HeaderFontFamily}"
                    Foreground="{DynamicResource AccentColorBrush}"

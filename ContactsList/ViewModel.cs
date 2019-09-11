@@ -43,12 +43,26 @@ namespace ContactsList
         }
 
         private string saveButtonContent;
+
         public string SaveButtonContent
         {
             get { return saveButtonContent; }
             set { SetProperty(ref saveButtonContent, value); }
         }
 
+        private bool gridContacts;
+        public bool GridContacts
+        {
+            get { return gridContacts; }
+            set { SetProperty(ref gridContacts, value); }
+        }
+
+        private bool noContacts;
+        public bool NoContacts
+        {
+            get { return noContacts; }
+            set { SetProperty(ref noContacts, value); }
+        }
 
         public ViewModel()
         {
@@ -160,9 +174,19 @@ namespace ContactsList
         private void LoadDb()
         {
             SelectedContact = null;
-            Contacts = repository.GetContacts();
             SelectedContact = new Contact();
-            
+
+            Contacts = repository.GetContacts();
+            if (Contacts.Count == 0)
+            {
+                GridContacts = false;
+                NoContacts = true;
+            }
+            else
+            {
+                GridContacts = true;
+                NoContacts = false;
+            }
         }
     }
 }
