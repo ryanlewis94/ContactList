@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using MahApps.Metro.Controls;
+using ContactsList.Helpers;
 
 namespace ContactsList
 {
@@ -21,6 +22,7 @@ namespace ContactsList
 
         public MainWindow()
         {
+            ApiHelper.InitializeClient();
             InitializeComponent();
         }
     }

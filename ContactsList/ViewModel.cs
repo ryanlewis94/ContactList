@@ -103,11 +103,23 @@ namespace ContactsList
                         //check if a user has been selected
                         if (SelectedContact.Id != 0)
                         {
-                            repository.UpdateContact(SelectedContact);
+                            try
+                            {
+                                await repository.UpdateContact(SelectedContact);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.Message == "Precondition Failed")
+                                {
+                                    await metroWindow.ShowMessageAsync("Warning", 
+                                        "This contact list has been updated elsewhere and is now out of date, " +
+                                        "your list will now be updated");
+                                }
+                            }
                         }
                         else
                         {
-                            repository.AddContact(SelectedContact);
+                            await repository.AddContact(SelectedContact);
                         }
 
                         LoadDb();
@@ -122,7 +134,9 @@ namespace ContactsList
 
         private bool CanSaveContact(object obj)
         {
-            if (SelectedContact.Id != 0)
+            if (SelectedContact != null)
+            {
+                if (SelectedContact.Id != 0)
             {
                 SaveButtonContent = "Save";
             }
@@ -132,6 +146,12 @@ namespace ContactsList
             }
             return !string.IsNullOrEmpty(SelectedContact.FirstName) &&
                    !string.IsNullOrEmpty(SelectedContact.Phone);
+            }
+            else
+            {
+                return !string.IsNullOrEmpty(SelectedContact.FirstName) &&
+                   !string.IsNullOrEmpty(SelectedContact.Phone);
+            }
         }
 
         private async void DeleteContact(object obj)
@@ -147,7 +167,7 @@ namespace ContactsList
                 MessageDialogStyle.AffirmativeAndNegative, settings);
             if (result == MessageDialogResult.Affirmative)
             {
-                repository.DeleteContact(SelectedContact);
+                await repository.DeleteContact(SelectedContact);
                 LoadDb();
             }
         }
@@ -159,7 +179,6 @@ namespace ContactsList
 
         private void ClearContact(object obj)
         {
-            repository.DiscardChanges();
             LoadDb();
         }
 
@@ -171,12 +190,12 @@ namespace ContactsList
                    !string.IsNullOrEmpty(SelectedContact.Email);
         }
 
-        private void LoadDb()
+        private async void LoadDb()
         {
             SelectedContact = null;
             SelectedContact = new Contact();
 
-            Contacts = repository.GetContacts();
+            Contacts = await repository.GetContacts();
             if (Contacts.Count == 0)
             {
                 GridContacts = false;

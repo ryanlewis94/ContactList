@@ -10,10 +10,10 @@ namespace ContactsList.Repositories
 {
     public interface IContactRepo
     {
-        List<Contact> GetContacts();
-        Contact AddContact(Contact contact);
-        Contact UpdateContact(Contact contact);
-        Contact DeleteContact(Contact contact);
+        Task<List<Contact>> GetContacts();
+        Task<Contact> AddContact(Contact contact);
+        Task<Contact> UpdateContact(Contact contact);
+        Task DeleteContact(Contact contact);
         Task DiscardChanges();
     }
 }
